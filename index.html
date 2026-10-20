@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#081225">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>FLUENT AI — Voice Coach Prototype</title>
+<style>
+:root{--bg:#07101f;--panel:#101d33;--panel2:#172946;--line:#2b4161;--blue:#6ba5ff;--cyan:#64e4ff;--text:#f5f8ff;--muted:#a6b7d0;--green:#73e2b5}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 85% -10%,#17396c 0,transparent 38%),var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}.wrap{max-width:850px;margin:auto;padding:18px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.brand{font-size:21px;font-weight:900;letter-spacing:.4px}.brand b{color:var(--cyan)}.tag{border:1px solid #34557f;color:#c5ddff;padding:6px 10px;border-radius:99px;font-size:11px}.hero,.panel{background:rgba(16,29,51,.92);border:1px solid var(--line);border-radius:24px;padding:22px;margin-bottom:16px}.hero{background:linear-gradient(135deg,#17335a,#101d33)}.eyebrow{color:var(--cyan);font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase}.hero h1{font-size:clamp(30px,7vw,46px);line-height:1.07;margin:9px 0}.muted{color:var(--muted);font-size:14px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.metric{padding:15px;border-radius:16px;background:#0a172b;border:1px solid var(--line)}.metric strong{display:block;font-size:22px}.label{font-size:12px;color:var(--muted)}.coach-head{display:flex;align-items:center;gap:14px}.orb{width:60px;height:60px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 25%,#9deaff,#4d8bff 55%,#283b9d);box-shadow:0 0 35px #3985ff55;font-size:26px;flex-shrink:0}.coach-head h2{margin:0}.chat{display:flex;flex-direction:column;gap:10px;max-height:360px;overflow:auto;margin:18px 0}.bubble{padding:12px 14px;border-radius:17px;max-width:90%;white-space:pre-wrap}.ai{background:#1a2d4b;border:1px solid #304b70;align-self:flex-start}.user{background:#164a69;border:1px solid #24729a;align-self:flex-end}.bubble small{display:block;color:#b4c8e3;font-size:11px;margin-bottom:4px}.controls{display:flex;gap:10px;flex-wrap:wrap}.btn{border:0;border-radius:14px;padding:13px 16px;font-weight:800;font:inherit;cursor:pointer}.primary{background:linear-gradient(100deg,var(--blue),var(--cyan));color:#071326}.secondary{background:#1b2d49;color:#edf4ff;border:1px solid #344d70}.btn:disabled{opacity:.45;cursor:not-allowed}.controls .btn{flex:1;min-width:135px}.status{font-size:13px;color:var(--cyan);margin:10px 0}.input{width:100%;padding:13px;border-radius:12px;border:1px solid #344d70;background:#081528;color:white;font:inherit;margin:8px 0}.feedback{display:none;margin-top:12px;padding:14px;border-radius:14px;background:#102c2b;border:1px solid #286558}.feedback h3{margin:0 0 5px;color:var(--green)}.notice{border-left:3px solid #e8b861;padding:10px 12px;background:#2c271b;color:#f6e4b9;border-radius:7px;font-size:12px;margin-top:14px}.footer{text-align:center;color:#8095b4;font-size:12px;padding:15px}@media(max-width:560px){.grid{grid-template-columns:1fr 1fr}.hero,.panel{padding:17px}.top{align-items:flex-start}.tag{max-width:125px;text-align:center}.bubble{max-width:96%}}
+</style></head>
+<body><main class="wrap">
+<header class="top"><div class="brand">✦ FLUENT <b>AI</b></div><div class="tag">VOICE COACH · PROTOTYPE</div></header>
+<section class="hero"><div class="eyebrow">Tamil + English · Online-first</div><h1>Practice out loud.<br><span style="color:var(--cyan)">Grow every day.</span></h1><p class="muted">A first voice-coach prototype for daily English speaking practice. Talk or type, get a guided response, and review a clearer version of your sentence.</p></section>
+<div class="grid">
+<div class="metric"><strong id="xp">0 XP</strong><span class="label">Practice points</span></div>
+<div class="metric"><strong id="turns">0</strong><span class="label">Your practice turns</span></div>
+</div>
+<section class="panel">
+<div class="coach-head"><div class="orb">✦</div><div><div class="eyebrow">Your speaking partner</div><h2>Daily Conversation</h2><div class="muted">Topic: Introducing yourself</div></div></div>
+<div class="chat" id="chat" aria-live="polite"><div class="bubble ai"><small>FLUENT COACH</small>Hi! Let's practice English together. Start with: “Hi, my name is Ranjith. I work as a graphic designer.” You can tap the microphone or type your answer below.</div></div>
+<div class="status" id="status">Ready when you are.</div>
+<div class="controls"><button class="btn primary" id="mic" onclick="toggleMic()">🎙️ Start speaking</button><button class="btn secondary" onclick="sayLast()">🔊 Hear coach</button><button class="btn secondary" onclick="resetChat()">↻ Restart</button></div>
+<label for="typed" class="muted">Or type your response</label><input class="input" id="typed" placeholder="Type what you would say in English…">
+<div class="controls"><button class="btn primary" onclick="sendTyped()">Send response →</button></div>
+<div id="feedback" class="feedback"><h3>Coach feedback</h3><div id="feedbackText"></div></div>
+<div class="notice">Prototype note: voice recognition depends on browser/device support and internet access. This build uses guided demo logic, not a live generative AI service yet. Feedback is educational and may miss context; a secure AI backend is the next engineering step.</div>
+</section>
+<section class="panel"><div class="eyebrow">How this grows</div><h2>Next release targets</h2><ul class="muted"><li>Real AI conversation with context-aware follow-up questions.</li><li>Grammar correction with simple Tamil explanations.</li><li>Pronunciation and fluency feedback using speech transcripts.</li><li>Personalized lesson path from A1 beginner to C1/C2 advanced practice.</li><li>Daily streaks, spaced repetition and progress history.</li></ul></section>
+<div class="footer">FLUENT AI · Voice practice MVP · Core learning planned to remain free</div>
+</main>
+<script>
+let xp=Number(localStorage.getItem('fluentV2Xp')||0),turns=Number(localStorage.getItem('fluentV2Turns')||0),recognition=null,listening=false,lastCoach="Hi! Let's practice English together. Start with: “Hi, my name is Ranjith. I work as a graphic designer.” You can tap the microphone or type your answer below.";
+const chat=document.getElementById('chat');
+function updateStats(){document.getElementById('xp').textContent=xp+' XP';document.getElementById('turns').textContent=turns;}
+function bubble(text,who){const el=document.createElement('div');el.className='bubble '+who;el.innerHTML='<small>'+(who==='user'?'YOU':'FLUENT COACH')+'</small>';el.appendChild(document.createTextNode(text));chat.appendChild(el);chat.scrollTop=chat.scrollHeight;}
+function respond(text){turns++;xp+=5;localStorage.setItem('fluentV2Xp',xp);localStorage.setItem('fluentV2Turns',turns);updateStats();const clean=text.trim();let coach,corrected=clean;
+if(!clean){coach='Try a short sentence. For example: “I am learning English.”';}
+else if(/my name|i am|i'm/i.test(clean)){coach='Nice introduction! Now add one more detail: what do you do, or what do you enjoy? Try starting with “I work as…” or “I enjoy…”';}
+else if(/work|designer|office|job/i.test(clean)){coach='Good! You are communicating an idea. Try adding a reason or detail using “because” or “and”. Can you say one more sentence about your work?';}
+else if(/don't know|dont know| தெரிய/i.test(clean)){coach='That is okay. You can say: “I am still learning, but I will try.” Repeat it aloud, then tell me one thing you like.';}
+else{coach='Good effort — keep going! Can you expand your answer with one more sentence? Try using “because”, “and”, or “usually”.';}
+bubble(clean,'user');lastCoach=coach;bubble(coach,'ai');document.getElementById('status').textContent='Practice turn saved on this device · +5 XP';
+const f=document.getElementById('feedback');f.style.display='block';const note=/\bi am learning english\b/i.test(clean)?'Clear and correct sentence. Try saying it once more at a natural pace.':(/^[a-z\s']+$/i.test(clean)&&clean.length>3?'Your message is understandable. For a more useful correction, try a complete sentence with a subject and verb.':'Focus on one complete idea per sentence. The coach will provide more precise corrections after the live AI backend is connected.');document.getElementById('feedbackText').textContent=note;document.getElementById('typed').value='';}
+function sendTyped(){const v=document.getElementById('typed').value.trim();if(!v)return;respond(v);}
+function toggleMic(){const status=document.getElementById('status'),btn=document.getElementById('mic');const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){status.textContent='Speech recognition is not supported here. Please type your answer or try a supported browser.';return;}if(listening&&recognition){recognition.stop();return;}recognition=new SR();recognition.lang='en-IN';recognition.interimResults=false;recognition.maxAlternatives=1;recognition.onstart=()=>{listening=true;btn.textContent='⏹ Stop listening';status.textContent='Listening… speak a short English sentence.'};recognition.onresult=e=>{const transcript=e.results[0][0].transcript;document.getElementById('typed').value=transcript;status.textContent='Heard: '+transcript;respond(transcript)};recognition.onerror=e=>{status.textContent='Microphone issue: '+e.error+'. You can type instead.'};recognition.onend=()=>{listening=false;btn.textContent='🎙️ Start speaking'};try{recognition.start()}catch(e){status.textContent='Could not start microphone. Try again or type instead.'}}
+function sayLast(){if(!('speechSynthesis'in window)){document.getElementById('status').textContent='Speech playback is unavailable on this device.';return;}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(lastCoach);u.lang='en-US';u.rate=.9;speechSynthesis.speak(u);}
+function resetChat(){chat.innerHTML='';lastCoach='Let’s start again. Tell me your name and one thing you enjoy.';bubble(lastCoach,'ai');document.getElementById('feedback').style.display='none';document.getElementById('status').textContent='Conversation restarted.';}
+updateStats();
+</script><script>
+if ("serviceWorker" in navigator && location.protocol.startsWith("http")) { window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {})); }
+</script>
+</body></html>

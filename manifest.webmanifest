@@ -1,0 +1,21 @@
+{
+  "id": "./",
+  "name": "FLUENT AI — English Speaking Coach",
+  "short_name": "FLUENT AI",
+  "description": "Tamil-supported English speaking practice from beginner to professional.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#07101f",
+  "theme_color": "#081225",
+  "lang": "en-IN",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
